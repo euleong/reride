@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ActivitiesListViewController.h
 //  ReRIDE
 //
 //  Created by Eugenia Leong on 10/3/14.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface ActivitiesListViewController : UIViewController <UITableViewDataSource>
 
 @end
-

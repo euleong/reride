@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ActivitiesListViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    ActivitiesListViewController *activitiesListViewController = [[ActivitiesListViewController alloc] init];
+    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:activitiesListViewController];
+    
+    self.window.rootViewController = navigationViewController;
     return YES;
 }
 

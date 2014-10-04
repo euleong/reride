@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>BCC2E6FD-6649-44AB-8012-EC0AD7273B0F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ReRIDE</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>975FD4C47B4616107B941DAB194FF40AAC52CFDF</key>
+		<string>https://github.com/euleong/reride.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ReRIDE.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>975FD4C47B4616107B941DAB194FF40AAC52CFDF</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/euleong/reride.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>975FD4C47B4616107B941DAB194FF40AAC52CFDF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>975FD4C47B4616107B941DAB194FF40AAC52CFDF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ReRIDE</string>
+		</dict>
+	</array>
+</dict>
+</plist>

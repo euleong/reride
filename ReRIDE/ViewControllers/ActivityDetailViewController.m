@@ -29,6 +29,8 @@ NSString *const CADENCE = @"cadence";
 NSString *const VELOCITY = @"velocity_smooth";
 int const CIRCLE_DIAMETER = 100;
 int const INNER_CIRCLE_DIAMETER = 40;
+int width;
+int height;
 
 // to keep track of which index in cadenceData and velocityData we're at
 int dataIndex = 0;
@@ -42,6 +44,11 @@ int dataIndex = 0;
         
         self.title = activityName;
         self.client = [[StravaClient alloc] init];
+        
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        height = screenRect.size.height;
+        width = screenRect.size.width;
+        NSLog(@"height %d, width %d", height, width);
     }
     return self;
     
@@ -72,14 +79,14 @@ int dataIndex = 0;
     // create road
     UIView *road = [[UIView alloc]
                     initWithFrame:CGRectMake(0,
-                                             self.view.frame.size.height/2,
-                                             self.view.frame.size.width, 10)];
+                                             height/2,
+                                             width, 10)];
     road.backgroundColor = [UIColor blackColor];
     [self.view addSubview:road];
     
     // create primitive crankset/pedals
-    CGRect rect = CGRectMake(self.view.frame.size.width/2 - (CIRCLE_DIAMETER*0.5),
-                             self.view.frame.size.height/4,CIRCLE_DIAMETER,CIRCLE_DIAMETER);
+    CGRect rect = CGRectMake(width/2 - CIRCLE_DIAMETER*0.5,
+                             height/3 - CIRCLE_DIAMETER*0.5 ,CIRCLE_DIAMETER,CIRCLE_DIAMETER);
     self.circle = [[UIView alloc]
                    initWithFrame:rect];
     self.circle.layer.cornerRadius = 50;
@@ -105,9 +112,9 @@ int dataIndex = 0;
     // make view representing the road segments
     
     UIView *roadSegment = [[UIView alloc]
-                           initWithFrame:CGRectMake(self.view.frame.size.width,
-                                                    self.view.frame.size.height/2,
-                                                    self.view.frame.size.width, 10)];
+                           initWithFrame:CGRectMake(width,
+                                                    height/2,
+                                                    width, 10)];
     if (dataIndex%2 == 0) {
         roadSegment.backgroundColor = [UIColor grayColor];
     }

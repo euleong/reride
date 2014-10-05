@@ -14,7 +14,7 @@
 //      Retrieve cycling stream (velocity and cadence)
 //      Create primitive graphics and animation
 //      Move API calls to client
-//      Some polish in DetailView
+//      Add autolayout constraints in DetailView
 //  TODO
 //      Move retrieving activities to client
 //      Why isn't rotation animation smooth?

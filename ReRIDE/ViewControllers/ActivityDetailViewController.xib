@@ -17,7 +17,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mph" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZDO-JB-rtn">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="mph" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZDO-JB-rtn">
                     <rect key="frame" x="440" y="400" width="60" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="6ZI-UY-fXA"/>
@@ -39,7 +39,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="rpm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQ9-rX-2Ao">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="rpm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQ9-rX-2Ao">
                     <rect key="frame" x="440" y="434" width="60" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="0Ms-hE-K7M"/>
@@ -68,7 +68,6 @@
                 <constraint firstItem="dQ9-rX-2Ao" firstAttribute="leading" secondItem="ZDO-JB-rtn" secondAttribute="leading" id="DKK-1K-oMD"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dQ9-rX-2Ao" secondAttribute="trailing" constant="80" id="FNe-dd-gF2"/>
                 <constraint firstItem="LGj-TG-xFZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="400" id="Mxt-8t-0As"/>
-                <constraint firstAttribute="trailing" secondItem="dQ9-rX-2Ao" secondAttribute="trailing" constant="100" id="XFn-eu-dGO"/>
                 <constraint firstItem="dQ9-rX-2Ao" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="AT3-jg-GPf" secondAttribute="trailing" constant="15" id="Zeo-FX-62L"/>
                 <constraint firstItem="LGj-TG-xFZ" firstAttribute="leading" secondItem="AT3-jg-GPf" secondAttribute="leading" id="bWH-eq-c7M"/>
                 <constraint firstItem="LGj-TG-xFZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="100" id="eT5-FV-KVC"/>
@@ -76,7 +75,6 @@
                 <constraint firstItem="dQ9-rX-2Ao" firstAttribute="baseline" secondItem="AT3-jg-GPf" secondAttribute="baseline" id="gj6-PY-msl"/>
                 <constraint firstItem="AT3-jg-GPf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="80" id="jeO-p0-98R"/>
             </constraints>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
 </document>

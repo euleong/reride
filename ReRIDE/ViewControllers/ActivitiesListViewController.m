@@ -10,9 +10,11 @@
 //      Got cycling activities
 //      Display cycling activities in tableView
 //      Push detail view controller when cell selected
-//  10/4/14 4 hours:
+//  10/4/14 5 hours:
 //      Retrieve cycling stream (velocity and cadence)
 //      Create primitive graphics and animation
+//      Move API calls to client
+//      Some polish in DetailView
 //  TODO
 //      Move retrieving activities to client
 //      Why isn't rotation animation smooth?

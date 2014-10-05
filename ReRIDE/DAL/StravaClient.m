@@ -8,8 +8,8 @@
 
 #import "StravaClient.h"
 
-NSString * const accessToken = @"";
-NSString * const clientSecret = @"";
+NSString * const accessToken = @"ac8a2fbc9a3ab1ff40ee00cfc99e2fc0ca20cdc4";
+NSString * const clientSecret = @"be35119ec86f4a9e209b4f3b1af2fbcaae3e808e";
 
 @implementation StravaClient
 

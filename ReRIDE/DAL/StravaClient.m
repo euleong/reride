@@ -8,12 +8,33 @@
 
 #import "StravaClient.h"
 
-NSString * const accessToken = @"ac8a2fbc9a3ab1ff40ee00cfc99e2fc0ca20cdc4";
-NSString * const clientSecret = @"be35119ec86f4a9e209b4f3b1af2fbcaae3e808e";
-
+NSString *accessToken;
 @implementation StravaClient
 
 - (id)init {
+    
+    
+    // read in api key from plist
+    NSString *errorDesc = nil;
+    NSPropertyListFormat format;
+    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                              NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *plistPath = [rootPath stringByAppendingPathComponent:@"StravaClient.plist"];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
+        plistPath = [[NSBundle mainBundle] pathForResource:@"StravaClient" ofType:@"plist"];
+    }
+    
+    NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
+    NSDictionary *plistDictionary = (NSDictionary *)[NSPropertyListSerialization
+                                          propertyListFromData:plistXML
+                                          mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                          format:&format
+                                          errorDescription:&errorDesc];
+    
+    
+    accessToken = [plistDictionary objectForKey:@"access_token"];
+    NSString *clientSecret = [plistDictionary objectForKey:@"client_secret"];
     NSURL *baseURL = [NSURL URLWithString:@"https://www.strava.com/"];
     self = [super initWithBaseURL:baseURL consumerKey:accessToken consumerSecret:clientSecret];
     if (self) {

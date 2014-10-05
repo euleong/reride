@@ -2,7 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>client_secret</key>
+	<string>be35119ec86f4a9e209b4f3b1af2fbcaae3e808e</string>
 	<key>access_token</key>
-	<string></string>
+	<string>ac8a2fbc9a3ab1ff40ee00cfc99e2fc0ca20cdc4</string>
 </dict>
 </plist>

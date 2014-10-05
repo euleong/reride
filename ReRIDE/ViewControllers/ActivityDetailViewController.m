@@ -76,7 +76,7 @@ int dataIndex = 0;
     
     // create primitive crankset/pedals
     CGRect rect = CGRectMake(self.view.frame.size.width/2 - (CIRCLE_DIAMETER*0.5),
-                             self.view.frame.size.height/3,CIRCLE_DIAMETER,CIRCLE_DIAMETER);
+                             self.view.frame.size.height/4,CIRCLE_DIAMETER,CIRCLE_DIAMETER);
     self.circle = [[UIView alloc]
                    initWithFrame:rect];
     self.circle.layer.cornerRadius = 50;

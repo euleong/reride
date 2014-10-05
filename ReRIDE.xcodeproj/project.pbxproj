@@ -19,6 +19,8 @@
 		5C9F30F219DFD39800779B04 /* ActivitiesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9F30EC19DFD39800779B04 /* ActivitiesListViewController.m */; };
 		5C9F30F319DFD39800779B04 /* ActivitiesListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9F30ED19DFD39800779B04 /* ActivitiesListViewController.xib */; };
 		5C9F30F419DFD39800779B04 /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9F30EF19DFD39800779B04 /* ActivityDetailViewController.m */; };
+		5CB7BCB419E0C13700A7EF1A /* StravaClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB7BCB319E0C13700A7EF1A /* StravaClient.m */; };
+		5CB7BCB719E0C1BC00A7EF1A /* StravaClient.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CB7BCB619E0C1BC00A7EF1A /* StravaClient.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,9 @@
 		5C9F30EE19DFD39800779B04 /* ActivityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityDetailViewController.h; path = ViewControllers/ActivityDetailViewController.h; sourceTree = "<group>"; };
 		5C9F30EF19DFD39800779B04 /* ActivityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityDetailViewController.m; path = ViewControllers/ActivityDetailViewController.m; sourceTree = "<group>"; };
 		5C9F30F019DFD39800779B04 /* ActivitiesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivitiesListViewController.h; path = ViewControllers/ActivitiesListViewController.h; sourceTree = "<group>"; };
+		5CB7BCB319E0C13700A7EF1A /* StravaClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StravaClient.m; path = DAL/StravaClient.m; sourceTree = "<group>"; };
+		5CB7BCB519E0C14C00A7EF1A /* StravaClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StravaClient.h; sourceTree = "<group>"; };
+		5CB7BCB619E0C1BC00A7EF1A /* StravaClient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = StravaClient.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +98,7 @@
 		5C7171F919DFBDFB00F3721F /* ReRIDE */ = {
 			isa = PBXGroup;
 			children = (
+				5CB7BCB219E0C0EE00A7EF1A /* DAL */,
 				5C71723019DFCE7500F3721F /* Views */,
 				5C71722F19DFCE5F00F3721F /* ViewControllers */,
 				5C7171FE19DFBDFB00F3721F /* AppDelegate.h */,
@@ -134,12 +140,12 @@
 		5C71722F19DFCE5F00F3721F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				5C9F30EB19DFD39800779B04 /* ActivityDetailViewController.xib */,
 				5C9F30EC19DFD39800779B04 /* ActivitiesListViewController.m */,
 				5C9F30ED19DFD39800779B04 /* ActivitiesListViewController.xib */,
+				5C9F30F019DFD39800779B04 /* ActivitiesListViewController.h */,
 				5C9F30EE19DFD39800779B04 /* ActivityDetailViewController.h */,
 				5C9F30EF19DFD39800779B04 /* ActivityDetailViewController.m */,
-				5C9F30F019DFD39800779B04 /* ActivitiesListViewController.h */,
+				5C9F30EB19DFD39800779B04 /* ActivityDetailViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -152,6 +158,16 @@
 				5C9F30E819DFD36F00779B04 /* ActivityCell.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		5CB7BCB219E0C0EE00A7EF1A /* DAL */ = {
+			isa = PBXGroup;
+			children = (
+				5CB7BCB319E0C13700A7EF1A /* StravaClient.m */,
+				5CB7BCB519E0C14C00A7EF1A /* StravaClient.h */,
+				5CB7BCB619E0C1BC00A7EF1A /* StravaClient.plist */,
+			);
+			name = DAL;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,6 +253,7 @@
 				5C9F30F119DFD39800779B04 /* ActivityDetailViewController.xib in Resources */,
 				5C71720619DFBDFB00F3721F /* Main.storyboard in Resources */,
 				5C71720B19DFBDFB00F3721F /* LaunchScreen.xib in Resources */,
+				5CB7BCB719E0C1BC00A7EF1A /* StravaClient.plist in Resources */,
 				5C9F30E919DFD36F00779B04 /* ActivityCell.xib in Resources */,
 				5C9F30F319DFD39800779B04 /* ActivitiesListViewController.xib in Resources */,
 				5C71720819DFBDFB00F3721F /* Images.xcassets in Resources */,
@@ -262,6 +279,7 @@
 				5C7171FD19DFBDFB00F3721F /* main.m in Sources */,
 				5C9F30EA19DFD36F00779B04 /* ActivityCell.m in Sources */,
 				5C9F30F419DFD39800779B04 /* ActivityDetailViewController.m in Sources */,
+				5CB7BCB419E0C13700A7EF1A /* StravaClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

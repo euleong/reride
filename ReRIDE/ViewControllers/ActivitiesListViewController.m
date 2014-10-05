@@ -10,8 +10,12 @@
 //      Got cycling activities
 //      Display cycling activities in tableView
 //      Push detail view controller when cell selected
+//  10/4/14 4 hours:
+//      Retrieve cycling stream (velocity and cadence)
+//      Create primitive graphics and animation
 //  TODO
 //      Move retrieving activities to client
+//      Why isn't rotation animation smooth?
 
 #import "ActivitiesListViewController.h"
 #import "ActivityCell.h"
@@ -20,6 +24,7 @@
 @interface ActivitiesListViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *activitiesTableView;
 @property (strong, nonatomic) NSMutableArray *activities;
+
 @end
 
 NSString *const RIDE = @"Ride";
@@ -71,19 +76,22 @@ NSString *const CELL_IDENTIFIER = @"ActivityCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.activitiesTableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    ActivityDetailViewController *activityDetailViewController = [[ActivityDetailViewController alloc] init];
+    NSString *activityId = self.activities[indexPath.row][@"id"];
+    NSString *activityName = self.activities[indexPath.row][@"name"];
+    //NSLog(@"%@", activityId);
+    ActivityDetailViewController *activityDetailViewController = [[ActivityDetailViewController alloc] initWithActivityId:activityId activityName:activityName];
     [self.navigationController pushViewController:activityDetailViewController animated:YES];
 }
 
 - (void) getActivitiesWithType:(NSString *)type {
-    NSString *url = @"https://www.strava.com/api/v3/activities?per_page=200&access_token=";
+    NSString *url = @"https://www.strava.com/api/v3/activities?per_page=200&access_token=ac8a2fbc9a3ab1ff40ee00cfc99e2fc0ca20cdc4";
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         
         if (connectionError) {
-            
+            NSLog(@"%@", connectionError);
         }
         else {
             id allActivities = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -92,7 +100,7 @@ NSString *const CELL_IDENTIFIER = @"ActivityCell";
             for (id activity in allActivities) {
                 NSString *activityType = activity[@"type"];
                 if ([activityType isEqualToString:RIDE]) {
-                    NSLog(@"%@", activity);
+                    //NSLog(@"%@", activity);
                     [self.activities addObject:activity];
                 }
             }

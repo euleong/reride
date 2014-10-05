@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ActivityDetailViewController : UIViewController
-
+- (id)initWithActivityId:(NSString *)activityId activityName:(NSString *)activityName;
 @end

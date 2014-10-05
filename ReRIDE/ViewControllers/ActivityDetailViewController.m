@@ -7,6 +7,7 @@
 //
 
 #import "ActivityDetailViewController.h"
+#import "StravaClient.h"
 
 @interface ActivityDetailViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *rpm;
@@ -16,6 +17,7 @@
 @property (strong, nonatomic) NSArray * velocityData;
 @property (weak, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) UIView *circle;
+@property (strong, nonatomic) StravaClient *client;
 
 // animation stuff
 @property (strong, nonatomic) UIDynamicAnimator *animator;
@@ -39,6 +41,7 @@ int dataIndex = 0;
         self.activityId = activityId;
         
         self.title = activityName;
+        self.client = [[StravaClient alloc] init];
     }
     return self;
     
@@ -175,62 +178,43 @@ int dataIndex = 0;
     return number*2.23694;
 }
 
-- (void) getActivityCadence{
-    NSString *url = [NSString stringWithFormat:@"https://www.strava.com/api/v3/activities/%@/streams/cadence?access_token=ac8a2fbc9a3ab1ff40ee00cfc99e2fc0ca20cdc4&resolution=medium", self.activityId];
+- (void) getActivityCadence {
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+    [self.client getStreamDataById:self.activityId type:CADENCE success:^(AFHTTPRequestOperation *operation, id response) {
         
-        if (connectionError) {
-            
-        }
-        else {
-            id responseData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            //NSLog(@"%@", responseData);
-            
-            // get cadence data
-            for (id object in responseData) {
-                NSString *dataType = object[@"type"];
-                if ([dataType isEqualToString:CADENCE]) {
-                    //NSLog(@"%@", object[@"data"]);
-                    self.cadenceData = object[@"data"];
-                    break;
-                }
+        for (id object in response) {
+            NSString *dataType = object[@"type"];
+            if ([dataType isEqualToString:CADENCE]) {
+                //NSLog(@"%@", object[@"data"]);
+                self.cadenceData = object[@"data"];
+                break;
             }
         }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", [error description]);
     }];
     
 }
 
-- (void) getActivityVelocity{
-    NSString *url = [NSString stringWithFormat:@"https://www.strava.com/api/v3/activities/%@/streams/velocity_smooth?access_token=ac8a2fbc9a3ab1ff40ee00cfc99e2fc0ca20cdc4&resolution=medium", self.activityId];
+- (void) getActivityVelocity {
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+    [self.client getStreamDataById:self.activityId type:VELOCITY success:^(AFHTTPRequestOperation *operation, id response) {
         
-        if (connectionError) {
-            
-        }
-        else {
-            id responseData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            //NSLog(@"%@", responseData);
-            
-            // get velocity data
-            for (id object in responseData) {
-                NSString *dataType = object[@"type"];
-                if ([dataType isEqualToString:VELOCITY]) {
-                    //NSLog(@"%@", object[@"data"]);
-                    self.velocityData = object[@"data"];
-                    break;
-                }
+        for (id object in response) {
+            NSString *dataType = object[@"type"];
+            if ([dataType isEqualToString:VELOCITY]) {
+                //NSLog(@"%@", object[@"data"]);
+                self.velocityData = object[@"data"];
+                break;
             }
-            
-            [self startAnimating];
         }
+        
+        [self startAnimating];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", [error description]);
     }];
-    
 }
 
 /*

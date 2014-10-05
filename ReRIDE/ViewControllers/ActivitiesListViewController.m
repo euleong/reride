@@ -20,10 +20,12 @@
 #import "ActivitiesListViewController.h"
 #import "ActivityCell.h"
 #import "ActivityDetailViewController.h"
+#import "StravaClient.h"
 
 @interface ActivitiesListViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *activitiesTableView;
 @property (strong, nonatomic) NSMutableArray *activities;
+@property (strong, nonatomic) StravaClient *client;
 
 @end
 
@@ -84,29 +86,23 @@ NSString *const CELL_IDENTIFIER = @"ActivityCell";
 }
 
 - (void) getActivitiesWithType:(NSString *)type {
-    NSString *url = @"https://www.strava.com/api/v3/activities?per_page=200&access_token=ac8a2fbc9a3ab1ff40ee00cfc99e2fc0ca20cdc4";
+    self.client = [[StravaClient alloc] init];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+    [self.client getAllActivitiesByType:type success:^(AFHTTPRequestOperation *operation, id response) {
         
-        if (connectionError) {
-            NSLog(@"%@", connectionError);
-        }
-        else {
-            id allActivities = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            
-            // put riding activities in activities array
-            for (id activity in allActivities) {
-                NSString *activityType = activity[@"type"];
-                if ([activityType isEqualToString:RIDE]) {
-                    //NSLog(@"%@", activity);
-                    [self.activities addObject:activity];
-                }
+        // put riding activities in activities array
+        for (id activity in response) {
+            NSString *activityType = activity[@"type"];
+            if ([activityType isEqualToString:RIDE]) {
+                //NSLog(@"%@", activity);
+                [self.activities addObject:activity];
             }
-            
-            [self.activitiesTableView reloadData];
         }
+        
+        [self.activitiesTableView reloadData];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", [error description]);
     }];
     
 }

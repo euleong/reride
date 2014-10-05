@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReRIDE/ViewControllers/ActivityDetailViewController.m"
-            timestampString = "434178918.015691"
+            timestampString = "434184133.154899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
             landmarkName = "-updateView"
             landmarkType = "5">
          </BreakpointContent>

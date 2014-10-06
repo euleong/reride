@@ -117,7 +117,7 @@ int dataIndex = 0;
     UIView *roadSegment = [[UIView alloc]
                            initWithFrame:CGRectMake(width,
                                                     height/2,
-                                                    width, 10)];
+                                                    CIRCLE_DIAMETER*M_PI, 10)];
     if (dataIndex%2 == 0) {
         roadSegment.backgroundColor = [UIColor grayColor];
     }
@@ -131,7 +131,7 @@ int dataIndex = 0;
     
     float velocity = [self.velocityData[dataIndex] floatValue];
     //NSLog(@"velocity: %f", velocity);
-    [self.roadBehavior addLinearVelocity:CGPointMake(velocity*-100, 0) forItem:roadSegment];
+    [self.roadBehavior addLinearVelocity:CGPointMake(velocity*-90, 0) forItem:roadSegment];
     // end make view representing the road segments
     // TODO make background scenery... trees?
     
@@ -151,7 +151,7 @@ int dataIndex = 0;
             option = UIViewAnimationOptionCurveEaseOut;
         }
         // pass in duration for half a revolution
-        [self pedalWithRadians:[self calculateAngleWithCadence:cadence] options:option];
+        [self pedalWithRadians:[self calculateRadiansWithCadence:cadence] options:option];
         
         self.rpm.text = [NSString stringWithFormat:@"%d", (int)cadence];
     }
@@ -159,24 +159,29 @@ int dataIndex = 0;
     dataIndex++;
 }
 
-- (void) pedalWithRadians:(CGFloat)angle options:(UIViewAnimationOptions)options {
-    // this spin completes 360 degrees every 1 second
+- (void) pedalWithRadians:(CGFloat)radians options:(UIViewAnimationOptions)options {
+    // this spin completes {radians} every 0.5 second
     [UIView animateWithDuration: 0.5
             delay: 0
             options: options
             animations: ^{
-                self.circle.transform = CGAffineTransformRotate(self.circle.transform, -angle);
+                self.circle.transform = CGAffineTransformRotate(self.circle.transform, radians);
             }
             completion:nil];
     
     
 }
 
-- (CGFloat) calculateAngleWithCadence:(float)cadence {
+- (CGFloat) calculateRadiansWithCadence:(float)cadence {
     // convert rpm -> revolutions per second
     float rps = cadence/60.f;
     // result is now # revolutions per second, how far can we go in half a second?
-    return (CGFloat)rps*M_PI;
+    rps *= M_PI;
+    NSLog(@"%0.2f", rps);
+    if (rps > M_PI) {
+        rps *= -1.f;
+    }
+    return (CGFloat)rps;
     
 }
 

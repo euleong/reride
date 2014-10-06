@@ -15,11 +15,15 @@
 //      Create primitive graphics and animation
 //      Move API calls to client
 //      Add autolayout constraints in DetailView
-//  10/5/14
+//  10/5/14 3 hours?
 //      Start animation after retrieving both velocity and cadence data
 //      Fix rotation
+//      Added more ride data to cell
+//      Created StravaActivity model
 //  TODO
 //      Authorization
+//      Use StravaActivity instead of id
+//      Looks like rpm is animated wrong
 
 #import "ActivitiesListViewController.h"
 #import "ActivityCell.h"

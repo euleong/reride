@@ -10,5 +10,7 @@
 
 @interface ActivityCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *activityName;
+@property (weak, nonatomic) IBOutlet UILabel *averageSpeed;
+@property (weak, nonatomic) IBOutlet UILabel *averageCadence;
 
 @end

@@ -71,12 +71,27 @@ NSString *const CELL_IDENTIFIER = @"ActivityCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER forIndexPath:indexPath];
-    cell.activityName.text = self.activities[indexPath.row][@"name"];
+    id activity = self.activities[indexPath.row];
+    cell.activityName.text = activity[@"name"];
+    NSString *averageSpeed = [NSString stringWithFormat:@"%@", activity[@"average_speed"]];
+    cell.averageSpeed.text = [NSString stringWithFormat:@"%.02f", [self msToMph:[averageSpeed floatValue]]];
+    if (activity[@"average_cadence"]) {
+        NSString *averageCadence = [NSString stringWithFormat:@"%@", activity[@"average_cadence"]];
+        cell.averageCadence.text = [NSString stringWithFormat:@"%d", [averageCadence intValue]];
+    }
+    else {
+        cell.averageCadence.text = @"--";
+    }
+
     return cell;
 }
 
+- (float)msToMph:(float)number {
+    return number*2.23694;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80;
+    return 90;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

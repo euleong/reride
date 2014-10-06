@@ -8,6 +8,7 @@
 
 #import "ActivityDetailViewController.h"
 #import "StravaClient.h"
+#import "StravaActivity.h"
 
 @interface ActivityDetailViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *rpm;
@@ -136,7 +137,7 @@ int dataIndex = 0;
     // TODO make background scenery... trees?
     
     // update mph text
-    self.mph.text = [NSString stringWithFormat:@"%.02f", [self msToMph:velocity]];
+    self.mph.text = [StravaActivity msToMphStr:velocity];
     
     // update rpm text
     if (!self.cadenceData) {
@@ -193,11 +194,6 @@ int dataIndex = 0;
 - (void)startAnimating {
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(updateView) userInfo:nil repeats:YES];
     [self.timer fire];
-}
-
-// converts m/s to mph
-- (float)msToMph:(float)number {
-    return number*2.23694;
 }
 
 - (void)getActivityDataWithCompletion:(void (^)(BOOL finished))completion {

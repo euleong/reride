@@ -29,6 +29,7 @@
 #import "ActivityCell.h"
 #import "ActivityDetailViewController.h"
 #import "StravaClient.h"
+#import "StravaActivity.h"
 
 @interface ActivitiesListViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *activitiesTableView;
@@ -78,7 +79,7 @@ NSString *const CELL_IDENTIFIER = @"ActivityCell";
     id activity = self.activities[indexPath.row];
     cell.activityName.text = activity[@"name"];
     NSString *averageSpeed = [NSString stringWithFormat:@"%@", activity[@"average_speed"]];
-    cell.averageSpeed.text = [NSString stringWithFormat:@"%.02f", [self msToMph:[averageSpeed floatValue]]];
+    cell.averageSpeed.text = [StravaActivity msToMphStr:[averageSpeed floatValue]];
     if (activity[@"average_cadence"]) {
         NSString *averageCadence = [NSString stringWithFormat:@"%@", activity[@"average_cadence"]];
         cell.averageCadence.text = [NSString stringWithFormat:@"%d", [averageCadence intValue]];

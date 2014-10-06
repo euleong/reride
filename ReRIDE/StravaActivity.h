@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface StravaActivity:NSObject
-
-- (float)msToMph:(float)number;
++ (NSString *)msToMphStr:(float)number;
 
 @end

@@ -10,8 +10,9 @@
 
 @implementation StravaActivity
 
-- (float)msToMph:(float)number {
-    return number*2.23694;
+// convert m/s to mi/h string
++ (NSString *)msToMphStr:(float)number {
+    return [NSString stringWithFormat:@"%.02f", number*2.23694];;
 }
 
 @end

@@ -63,10 +63,12 @@ int dataIndex = 0;
     self.roadBehavior = [[UIDynamicItemBehavior alloc] init];
     [self.animator addBehavior:self.roadBehavior];
     
-    // should only start animating when we get both of these results
-    [self getActivityCadence];
-    [self getActivityVelocity];
-
+    // should only start animating when we get data
+    [self getActivityDataWithCompletion:^(BOOL finished) {
+        if (finished) {
+            [self startAnimating];
+        }
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -185,6 +187,48 @@ int dataIndex = 0;
     return number*2.23694;
 }
 
+- (void)getActivityDataWithCompletion:(void (^)(BOOL finished))completion {
+
+    // get velocity data
+    [self.client getStreamDataById:self.activityId type:VELOCITY success:^(AFHTTPRequestOperation *operation, id response) {
+        
+        for (id object in response) {
+            NSString *dataType = object[@"type"];
+            if ([dataType isEqualToString:VELOCITY]) {
+                //NSLog(@"%@", object[@"data"]);
+                self.velocityData = object[@"data"];
+                break;
+            }
+        }
+        
+        // get cadence data
+        [self.client getStreamDataById:self.activityId type:CADENCE success:^(AFHTTPRequestOperation *operation, id response) {
+            
+            for (id object in response) {
+                NSString *dataType = object[@"type"];
+                if ([dataType isEqualToString:CADENCE]) {
+                    //NSLog(@"%@", object[@"data"]);
+                    self.cadenceData = object[@"data"];
+                    break;
+                }
+            }
+            
+            // got data needed to animate
+            completion(YES);
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"error: %@", [error description]);
+        }];
+        
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", [error description]);
+    }];
+
+}
+
+/*
 - (void) getActivityCadence {
     
     [self.client getStreamDataById:self.activityId type:CADENCE success:^(AFHTTPRequestOperation *operation, id response) {
@@ -217,12 +261,13 @@ int dataIndex = 0;
             }
         }
         
-        [self startAnimating];
+        //[self startAnimating];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [error description]);
     }];
 }
+*/
 
 /*
 #pragma mark - Navigation

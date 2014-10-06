@@ -53,13 +53,12 @@ int dataIndex = 0;
     
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [self createScene];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [self createScene];
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     self.roadBehavior = [[UIDynamicItemBehavior alloc] init];

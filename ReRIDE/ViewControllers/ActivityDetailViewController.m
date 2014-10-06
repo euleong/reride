@@ -22,7 +22,6 @@
 // animation stuff
 @property (strong, nonatomic) UIDynamicAnimator *animator;
 @property (strong, nonatomic) UIDynamicItemBehavior *roadBehavior;
-@property (strong, nonatomic) UIDynamicItemBehavior *pedalBehavior;
 @end
 
 NSString *const CADENCE = @"cadence";
@@ -48,16 +47,19 @@ int dataIndex = 0;
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         height = screenRect.size.height;
         width = screenRect.size.width;
-        NSLog(@"height %d, width %d", height, width);
+        //NSLog(@"height %d, width %d", height, width);
     }
     return self;
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self createScene];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self createScene];
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     self.roadBehavior = [[UIDynamicItemBehavior alloc] init];
@@ -144,31 +146,38 @@ int dataIndex = 0;
     }
     else {
         float cadence = [self.cadenceData[dataIndex] floatValue];
+        
+        UIViewAnimationOptions option = UIViewAnimationOptionCurveLinear;
+        if (dataIndex == [self.velocityData count]-1) {
+            option = UIViewAnimationOptionCurveEaseOut;
+        }
         // pass in duration for half a revolution
-        [self pedalWithDuration:[self calculateDurationWithCadence:cadence]];
+        [self pedalWithRadians:[self calculateAngleWithCadence:cadence] options:option];
+        
         self.rpm.text = [NSString stringWithFormat:@"%d", (int)cadence];
     }
     
     dataIndex++;
 }
 
-- (void) pedalWithDuration: (NSTimeInterval) duration {
+- (void) pedalWithRadians:(CGFloat)angle options:(UIViewAnimationOptions)options {
     // this spin completes 360 degrees every 1 second
-    [UIView animateWithDuration: duration
+    [UIView animateWithDuration: 0.5
             delay: 0
-            options: UIViewAnimationOptionCurveLinear
+            options: options
             animations: ^{
-                self.circle.transform = CGAffineTransformRotate(self.circle.transform, M_PI);
+                self.circle.transform = CGAffineTransformRotate(self.circle.transform, -angle);
             }
             completion:nil];
     
+    
 }
 
-- (float) calculateDurationWithCadence:(float)cadence {
+- (CGFloat) calculateAngleWithCadence:(float)cadence {
     // convert rpm -> revolutions per second
     float rps = cadence/60.f;
-    // result is now # revolutions per second, how long does it take to rotate half a revolution?
-    return 0.5f/rps;
+    // result is now # revolutions per second, how far can we go in half a second?
+    return (CGFloat)rps*M_PI;
     
 }
 

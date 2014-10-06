@@ -15,9 +15,11 @@
 //      Create primitive graphics and animation
 //      Move API calls to client
 //      Add autolayout constraints in DetailView
+//  10/5/14
+//      Start animation after retrieving both velocity and cadence data
+//      Fix rotation
 //  TODO
-//      Move retrieving activities to client
-//      Why isn't rotation animation smooth?
+//      Authorization
 
 #import "ActivitiesListViewController.h"
 #import "ActivityCell.h"

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ReRIDE/ViewControllers/ActivitiesListViewController.m"
-            timestampString = "434184770.354916"
+            timestampString = "434251241.530783"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "-getActivitiesWithType:"
             landmarkType = "5">
          </BreakpointContent>

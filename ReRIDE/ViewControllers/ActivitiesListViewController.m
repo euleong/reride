@@ -30,6 +30,7 @@
 #import "ActivityDetailViewController.h"
 #import "StravaClient.h"
 #import "StravaActivity.h"
+#import "MBProgressHUD.h"
 
 @interface ActivitiesListViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *activitiesTableView;
@@ -40,6 +41,7 @@
 
 NSString *const RIDE = @"Ride";
 NSString *const CELL_IDENTIFIER = @"ActivityCell";
+MBProgressHUD *statusHud;
 
 @implementation ActivitiesListViewController
 
@@ -110,10 +112,16 @@ NSString *const CELL_IDENTIFIER = @"ActivityCell";
 }
 
 - (void) getActivitiesWithType:(NSString *)type {
+    
+    statusHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    statusHud.mode = MBProgressHUDModeAnnularDeterminate;
+    statusHud.labelText = @"Retrieving activities";
+    
     self.client = [[StravaClient alloc] init];
     
     [self.client getAllActivitiesByType:type success:^(AFHTTPRequestOperation *operation, id response) {
         
+        [statusHud hide:YES];
         // put riding activities in activities array
         for (id activity in response) {
             NSString *activityType = activity[@"type"];

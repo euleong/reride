@@ -9,6 +9,7 @@
 #import "ActivityDetailViewController.h"
 #import "StravaClient.h"
 #import "StravaActivity.h"
+#import "MBProgressHUD.h"
 
 @interface ActivityDetailViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *rpm;
@@ -19,6 +20,7 @@
 @property (weak, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) UIView *circle;
 @property (strong, nonatomic) StravaClient *client;
+- (IBAction)onTap:(UITapGestureRecognizer *)sender;
 
 // animation stuff
 @property (strong, nonatomic) UIDynamicAnimator *animator;
@@ -31,6 +33,8 @@ int const CIRCLE_DIAMETER = 100;
 int const INNER_CIRCLE_DIAMETER = 40;
 int width;
 int height;
+MBProgressHUD *statusHud;
+
 
 // to keep track of which index in cadenceData and velocityData we're at
 int dataIndex = 0;
@@ -63,6 +67,7 @@ int dataIndex = 0;
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     self.roadBehavior = [[UIDynamicItemBehavior alloc] init];
+    self.roadBehavior.resistance = 0.9;
     [self.animator addBehavior:self.roadBehavior];
     
     // should only start animating when we get data
@@ -98,8 +103,8 @@ int dataIndex = 0;
     [self.view addSubview:self.circle];
     
     UIView *spot = [[UIView alloc]
-                    initWithFrame:CGRectMake(self.circle.frame.size.width/2,
-                                             self.circle.frame.size.height/2,
+                    initWithFrame:CGRectMake(self.circle.frame.size.width*0.58,
+                                             self.circle.frame.size.height*0.58,
                                              INNER_CIRCLE_DIAMETER,INNER_CIRCLE_DIAMETER)];
     spot.layer.cornerRadius = 50;
     spot.backgroundColor = [UIColor blueColor];
@@ -132,7 +137,7 @@ int dataIndex = 0;
     
     float velocity = [self.velocityData[dataIndex] floatValue];
     //NSLog(@"velocity: %f", velocity);
-    [self.roadBehavior addLinearVelocity:CGPointMake(velocity*-90, 0) forItem:roadSegment];
+    [self.roadBehavior addLinearVelocity:CGPointMake(velocity*-100.f, 0) forItem:roadSegment];
     // end make view representing the road segments
     // TODO make background scenery... trees?
     
@@ -178,10 +183,12 @@ int dataIndex = 0;
     float rps = cadence/60.f;
     // result is now # revolutions per second, how far can we go in half a second?
     rps *= M_PI;
-    NSLog(@"%0.2f", rps);
+    NSLog(@"cadence: %d, radians: %0.2f", (int)cadence, rps);
+    
     if (rps > M_PI) {
         rps *= -1.f;
     }
+    
     return (CGFloat)rps;
     
 }
@@ -227,14 +234,24 @@ int dataIndex = 0;
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"error: %@", [error description]);
+            [self showErrorWithDataType:CADENCE];
         }];
         
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [error description]);
+        [self showErrorWithDataType:@"velocity"];
+
     }];
 
+}
+
+- (void) showErrorWithDataType:(NSString *)type {
+    statusHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    statusHud.mode = MBProgressHUDModeText;
+    statusHud.labelText = [NSString stringWithFormat:@"Unable to retrieve %@.", type];
+    statusHud.detailsLabelText = @"Tap anywhere to try again.";
 }
 
 /*
@@ -288,4 +305,14 @@ int dataIndex = 0;
 }
 */
 
+- (IBAction)onTap:(UITapGestureRecognizer *)sender {
+    
+    [statusHud hide:YES];
+    
+    [self getActivityDataWithCompletion:^(BOOL finished) {
+        if (finished) {
+            [self startAnimating];
+        }
+    }];
+}
 @end

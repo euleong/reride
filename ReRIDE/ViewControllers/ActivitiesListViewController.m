@@ -115,7 +115,7 @@ MBProgressHUD *statusHud;
 - (void) getActivitiesWithType:(NSString *)type {
     
     statusHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    statusHud.mode = MBProgressHUDModeAnnularDeterminate;
+    statusHud.mode = MBProgressHUDModeIndeterminate;
     statusHud.labelText = @"Retrieving activities";
     
     self.client = [[StravaClient alloc] init];

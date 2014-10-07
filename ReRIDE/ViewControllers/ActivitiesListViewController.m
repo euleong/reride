@@ -20,7 +20,7 @@
 //      Fix rotation
 //      Added more ride data to cell
 //      Created StravaActivity model
-// 10/6/14 1 hour
+//  10/6/14 1 hour
 //      Double check speed and cadence animation
 //      Added some error messages
 //  TODO

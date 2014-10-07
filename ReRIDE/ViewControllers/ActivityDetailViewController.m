@@ -118,6 +118,7 @@ int dataIndex = 0;
 - (void)updateView {
     // finish animating
     if (dataIndex >= [self.velocityData count]) {
+        self.mph.text = @"0.00";
         [self.timer invalidate];
         return;
     }

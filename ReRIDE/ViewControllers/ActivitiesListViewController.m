@@ -25,6 +25,7 @@
 //      Added some error messages
 //  TODO
 //      Authorization
+//      Improve speed animation
 
 #import "ActivitiesListViewController.h"
 #import "ActivityCell.h"

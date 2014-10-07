@@ -20,7 +20,9 @@
 @property (weak, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) UIView *circle;
 @property (strong, nonatomic) StravaClient *client;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGestureRecognizer;
 - (IBAction)onTap:(UITapGestureRecognizer *)sender;
+
 
 // animation stuff
 @property (strong, nonatomic) UIDynamicAnimator *animator;
@@ -69,6 +71,8 @@ int dataIndex = 0;
     self.roadBehavior = [[UIDynamicItemBehavior alloc] init];
     self.roadBehavior.resistance = 0.9;
     [self.animator addBehavior:self.roadBehavior];
+    
+    self.tapGestureRecognizer.enabled = NO;
     
     // should only start animating when we get data
     [self getActivityDataWithCompletion:^(BOOL finished) {
@@ -235,6 +239,7 @@ int dataIndex = 0;
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"error: %@", [error description]);
             [self showErrorWithDataType:CADENCE];
+            self.tapGestureRecognizer.enabled = YES;
         }];
         
         
@@ -242,6 +247,7 @@ int dataIndex = 0;
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [error description]);
         [self showErrorWithDataType:@"velocity"];
+        self.tapGestureRecognizer.enabled = YES;
 
     }];
 
@@ -308,7 +314,7 @@ int dataIndex = 0;
 - (IBAction)onTap:(UITapGestureRecognizer *)sender {
     
     [statusHud hide:YES];
-    
+    self.tapGestureRecognizer.enabled = NO;
     [self getActivityDataWithCompletion:^(BOOL finished) {
         if (finished) {
             [self startAnimating];

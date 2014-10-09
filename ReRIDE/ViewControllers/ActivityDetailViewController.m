@@ -74,9 +74,14 @@ int dataIndex = 0;
     
     self.tapGestureRecognizer.enabled = NO;
     
+    statusHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    statusHud.mode = MBProgressHUDModeIndeterminate;
+    statusHud.labelText = @"Loading...";
+    
     // should only start animating when we get data
     [self getActivityDataWithCompletion:^(BOOL finished) {
         if (finished) {
+            [statusHud hide:YES];
             [self startAnimating];
         }
     }];

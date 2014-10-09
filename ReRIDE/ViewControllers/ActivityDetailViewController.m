@@ -172,14 +172,30 @@ int dataIndex = 0;
 
 - (void) pedalWithRadians:(CGFloat)radians options:(UIViewAnimationOptions)options {
     // this spin completes {radians} every 0.5 second
-    [UIView animateWithDuration: 0.5
-            delay: 0
-            options: options
-            animations: ^{
-                self.circle.transform = CGAffineTransformRotate(self.circle.transform, radians);
-            }
-            completion:nil];
     
+    CGFloat halfRadians = radians*0.5f;
+    // prevent taking shortest route
+    if (halfRadians > M_PI) {
+        halfRadians *= -1.f;
+    }
+    
+    [UIView animateWithDuration:0.25
+            delay:0.0
+            options:options
+            animations:^{
+                self.circle.transform = CGAffineTransformRotate(self.circle.transform, halfRadians);
+            }
+            completion:^(BOOL finished)
+            {
+                [UIView animateWithDuration:0.25
+                                delay:0.0
+                                options:options
+                                animations:^{
+                                     self.circle.transform = CGAffineTransformRotate(self.circle.transform, halfRadians);
+                                }
+                                completion:nil];
+                 
+            }];
     
 }
 
@@ -188,12 +204,8 @@ int dataIndex = 0;
     float rps = cadence/60.f;
     // result is now # revolutions per second, how far can we go in half a second?
     rps *= M_PI;
-    NSLog(@"cadence: %d, radians: %0.2f", (int)cadence, rps);
-    
-    if (rps > M_PI) {
-        rps *= -1.f;
-    }
-    
+
+    //NSLog(@"cadence: %d, radians: %0.2f", (int)cadence, rps);
     return (CGFloat)rps;
     
 }

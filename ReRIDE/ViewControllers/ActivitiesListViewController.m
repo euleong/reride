@@ -23,6 +23,8 @@
 //  10/6/14 1 hour
 //      Double check speed and cadence animation
 //      Added some error messages
+// 10/8/14 2 hours
+//      Fix rotation
 //  TODO
 //      Authorization
 //      Improve speed animation

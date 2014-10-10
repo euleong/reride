@@ -272,6 +272,8 @@ int dataIndex = 0;
 }
 
 - (void) showErrorWithDataType:(NSString *)type {
+    // hide loading hud
+    [statusHud hide:YES];
     statusHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     statusHud.mode = MBProgressHUDModeText;
     statusHud.labelText = [NSString stringWithFormat:@"Unable to retrieve %@.", type];

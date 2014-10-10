@@ -25,6 +25,9 @@
 //      Added some error messages
 // 10/8/14 2 hours
 //      Fix rotation
+// 10/9/14
+//      Played around with speed animation. Tried using animateWithDuration, so roadSegments don't bump into each other.
+//      Fix bug in status messages
 //  TODO
 //      Authorization
 //      Improve speed animation

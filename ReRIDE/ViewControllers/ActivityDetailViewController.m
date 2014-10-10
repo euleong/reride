@@ -69,7 +69,7 @@ int dataIndex = 0;
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     self.roadBehavior = [[UIDynamicItemBehavior alloc] init];
-    self.roadBehavior.resistance = 0.9;
+    //self.roadBehavior.resistance = 0.9;
     [self.animator addBehavior:self.roadBehavior];
     
     self.tapGestureRecognizer.enabled = NO;

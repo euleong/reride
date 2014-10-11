@@ -11,8 +11,9 @@
 NSString *accessToken;
 @implementation StravaClient
 
-- (id)init {
++ (StravaClient *) instance {
     
+    static StravaClient *instance;
     
     // read in api key from plist
     NSString *errorDesc = nil;
@@ -35,13 +36,14 @@ NSString *accessToken;
     
     accessToken = [plistDictionary objectForKey:@"access_token"];
     NSString *clientSecret = [plistDictionary objectForKey:@"client_secret"];
+    
     NSURL *baseURL = [NSURL URLWithString:@"https://www.strava.com/"];
-    self = [super initWithBaseURL:baseURL consumerKey:accessToken consumerSecret:clientSecret];
-    if (self) {
+    instance = [[StravaClient alloc] initWithBaseURL:baseURL consumerKey:accessToken consumerSecret:clientSecret];
+    if (instance) {
         BDBOAuthToken *token = [BDBOAuthToken tokenWithToken:accessToken secret:clientSecret expiration:nil];
-        [self.requestSerializer saveAccessToken:token];
+        [instance.requestSerializer saveAccessToken:token];
     }
-    return self;
+    return instance;
 }
 
 - (AFHTTPRequestOperation *)getAllActivitiesByType:(NSString *)type success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {

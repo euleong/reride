@@ -124,7 +124,7 @@ MBProgressHUD *statusHud;
     statusHud.mode = MBProgressHUDModeIndeterminate;
     statusHud.labelText = @"Retrieving activities";
     
-    self.client = [[StravaClient alloc] init];
+    self.client = [StravaClient instance];//[[StravaClient alloc] init];
     
     [self.client getAllActivitiesByType:type success:^(AFHTTPRequestOperation *operation, id response) {
         

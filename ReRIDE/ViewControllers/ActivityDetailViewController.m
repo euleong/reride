@@ -49,7 +49,7 @@ int dataIndex = 0;
         self.activityId = activityId;
         
         self.title = activityName;
-        self.client = [[StravaClient alloc] init];
+        self.client = [StravaClient instance];//[[StravaClient alloc] init];
         
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         height = screenRect.size.height;

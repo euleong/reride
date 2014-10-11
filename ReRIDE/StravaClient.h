@@ -10,7 +10,7 @@
 
 @interface StravaClient:BDBOAuth1RequestOperationManager
 
-- (id)init;
++ (StravaClient *)instance;
 
 - (AFHTTPRequestOperation *)getAllActivitiesByType:(NSString *)type success:(void (^)(AFHTTPRequestOperation *operation, id response))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 

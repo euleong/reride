@@ -32,7 +32,6 @@
 NSString *const CADENCE = @"cadence";
 NSString *const VELOCITY = @"velocity_smooth";
 int const CIRCLE_DIAMETER = 100;
-int const INNER_CIRCLE_DIAMETER = 40;
 int width;
 int height;
 MBProgressHUD *statusHud;
@@ -103,21 +102,57 @@ int dataIndex = 0;
     [self.view addSubview:road];
     
     // create primitive crankset/pedals
+    
     CGRect rect = CGRectMake(width/2 - CIRCLE_DIAMETER*0.5,
                              height/3 - CIRCLE_DIAMETER*0.5 ,CIRCLE_DIAMETER,CIRCLE_DIAMETER);
+    
+    
+    
+    CGRect crankArmRect = CGRectMake(CIRCLE_DIAMETER*0.5-10,
+                                     CIRCLE_DIAMETER*0.5-10,
+                                     CIRCLE_DIAMETER*0.9,20);
+    // crank
     self.circle = [[UIView alloc]
                    initWithFrame:rect];
     self.circle.layer.cornerRadius = 50;
     self.circle.backgroundColor = [UIColor yellowColor];
     [self.view addSubview:self.circle];
     
-    UIView *spot = [[UIView alloc]
-                    initWithFrame:CGRectMake(self.circle.frame.size.width*0.58,
-                                             self.circle.frame.size.height*0.58,
-                                             INNER_CIRCLE_DIAMETER,INNER_CIRCLE_DIAMETER)];
-    spot.layer.cornerRadius = 50;
-    spot.backgroundColor = [UIColor blueColor];
-    [self.circle addSubview:spot];
+    // left crank arm
+    UIView *crankArmL = [[UIView alloc]
+                         initWithFrame:crankArmRect];
+    
+    
+    crankArmL.transform = CGAffineTransformTranslate(crankArmL.transform, -crankArmL.center.x*0.5 + 10, 0);
+    crankArmL.transform = CGAffineTransformRotate(crankArmL.transform, M_PI + M_PI*0.25);
+    crankArmL.transform = CGAffineTransformTranslate(crankArmL.transform, crankArmL.center.x*0.5 - 10, 0);
+    
+    crankArmL.layer.cornerRadius = 10;
+    crankArmL.backgroundColor = [UIColor blueColor];
+    [self.circle addSubview:crankArmL];
+    
+    // add another circle on top to hide the left crankarm that shouldn't be seen
+    UIView *secondCircle = [[UIView alloc]
+                   initWithFrame:CGRectMake(0, 0, CIRCLE_DIAMETER, CIRCLE_DIAMETER)];
+    secondCircle.layer.cornerRadius = 50;
+    secondCircle.backgroundColor = [UIColor yellowColor];
+    [self.circle addSubview:secondCircle];
+    
+    // right crank arm
+    UIView *crankArmR = [[UIView alloc]
+                    initWithFrame:crankArmRect];
+    
+
+    crankArmR.transform = CGAffineTransformTranslate(crankArmR.transform, -crankArmR.center.x*0.5 + 10, 0);
+    crankArmR.transform = CGAffineTransformRotate(crankArmR.transform, M_PI*0.25);
+    crankArmR.transform = CGAffineTransformTranslate(crankArmR.transform, crankArmR.center.x*0.5 - 10, 0);
+
+    crankArmR.layer.cornerRadius = 10;
+    crankArmR.backgroundColor = [UIColor blueColor];
+    [self.circle addSubview:crankArmR];
+    
+
+
 }
 
 - (void)updateView {
@@ -319,8 +354,25 @@ int dataIndex = 0;
         NSLog(@"error: %@", [error description]);
     }];
 }
-*/
 
+
+- (void) getActivityGrade {
+    [self.client getStreamDataById:self.activityId type:@"grade_smooth" success:^(AFHTTPRequestOperation *operation, id response) {
+        
+        for (id object in response) {
+            NSString *dataType = object[@"type"];
+            if ([dataType isEqualToString:@"grade_smooth"]) {
+                NSLog(@"%@", object[@"data"]);
+                //self.cadenceData = object[@"data"];
+                break;
+            }
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error: %@", [error description]);
+    }];
+}
+ */
 /*
 #pragma mark - Navigation
 

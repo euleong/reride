@@ -21,21 +21,22 @@
 @property (strong, nonatomic) UIView *circle;
 @property (strong, nonatomic) StravaClient *client;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGestureRecognizer;
-- (IBAction)onTap:(UITapGestureRecognizer *)sender;
-
 
 // animation stuff
 @property (strong, nonatomic) UIDynamicAnimator *animator;
 @property (strong, nonatomic) UIDynamicItemBehavior *roadBehavior;
+
+- (IBAction)onTap:(UITapGestureRecognizer *)sender;
+
 @end
 
 NSString *const CADENCE = @"cadence";
 NSString *const VELOCITY = @"velocity_smooth";
 int const CIRCLE_DIAMETER = 100;
+// width and height of screen
 int width;
 int height;
 MBProgressHUD *statusHud;
-
 
 // to keep track of which index in cadenceData and velocityData we're at
 int dataIndex = 0;
@@ -48,7 +49,7 @@ int dataIndex = 0;
         self.activityId = activityId;
         
         self.title = activityName;
-        self.client = [StravaClient instance];//[[StravaClient alloc] init];
+        self.client = [StravaClient instance];
         
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         height = screenRect.size.height;
@@ -64,15 +65,16 @@ int dataIndex = 0;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    // create drawing
     [self createScene];
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     self.roadBehavior = [[UIDynamicItemBehavior alloc] init];
-    //self.roadBehavior.resistance = 0.9;
     [self.animator addBehavior:self.roadBehavior];
     
     self.tapGestureRecognizer.enabled = NO;
     
+    // show loading status hud
     statusHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     statusHud.mode = MBProgressHUDModeIndeterminate;
     statusHud.labelText = @"Loading...";
@@ -80,6 +82,7 @@ int dataIndex = 0;
     // should only start animating when we get data
     [self getActivityDataWithCompletion:^(BOOL finished) {
         if (finished) {
+            // hide status hud and start playing animation
             [statusHud hide:YES];
             [self startAnimating];
         }
@@ -102,7 +105,6 @@ int dataIndex = 0;
     [self.view addSubview:road];
     
     // create primitive crankset/pedals
-    
     CGRect rect = CGRectMake(width/2 - CIRCLE_DIAMETER*0.5,
                              height/3 - CIRCLE_DIAMETER*0.5 ,CIRCLE_DIAMETER,CIRCLE_DIAMETER);
     
@@ -151,8 +153,6 @@ int dataIndex = 0;
     crankArmR.backgroundColor = [UIColor blueColor];
     [self.circle addSubview:crankArmR];
     
-
-
 }
 
 - (void)updateView {
@@ -164,7 +164,6 @@ int dataIndex = 0;
     }
     
     // make view representing the road segments
-    
     UIView *roadSegment = [[UIView alloc]
                            initWithFrame:CGRectMake(width,
                                                     height/2,
@@ -198,6 +197,7 @@ int dataIndex = 0;
         float cadence = [self.cadenceData[dataIndex] floatValue];
         
         UIViewAnimationOptions option = UIViewAnimationOptionCurveLinear;
+        // last revolution
         if (dataIndex == [self.velocityData count]-1) {
             option = UIViewAnimationOptionCurveEaseOut;
         }
@@ -235,7 +235,7 @@ int dataIndex = 0;
                                 }
                                 completion:nil];
                  
-            }];
+    }];
     
 }
 
@@ -245,7 +245,6 @@ int dataIndex = 0;
     // result is now # revolutions per second, how far can we go in half a second?
     rps *= M_PI;
 
-    //NSLog(@"cadence: %d, radians: %0.2f", (int)cadence, rps);
     return (CGFloat)rps;
     
 }
@@ -295,8 +294,6 @@ int dataIndex = 0;
             self.tapGestureRecognizer.enabled = YES;
         }];
         
-        
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error: %@", [error description]);
         [self showErrorWithDataType:@"velocity"];
@@ -306,6 +303,7 @@ int dataIndex = 0;
 
 }
 
+// shows error in status hud when we can't retrieve velocity or cadence data
 - (void) showErrorWithDataType:(NSString *)type {
     // hide loading hud
     [statusHud hide:YES];

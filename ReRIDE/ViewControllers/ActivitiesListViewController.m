@@ -28,6 +28,8 @@
 // 10/9/14
 //      Played around with speed animation. Tried using animateWithDuration, so roadSegments don't bump into each other.
 //      Fix bug in status messages
+// 10/11/14
+//      Re-drew crankset drawing
 //  TODO
 //      Authorization
 //      Improve speed animation
@@ -100,9 +102,6 @@ MBProgressHUD *statusHud;
     return cell;
 }
 
-- (float)msToMph:(float)number {
-    return number*2.23694;
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 90;
@@ -120,15 +119,17 @@ MBProgressHUD *statusHud;
 
 - (void) getActivitiesWithType:(NSString *)type {
     
+    // showing loading status hud
     statusHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     statusHud.mode = MBProgressHUDModeIndeterminate;
     statusHud.labelText = @"Retrieving activities";
     
-    self.client = [StravaClient instance];//[[StravaClient alloc] init];
-    
+    self.client = [StravaClient instance];
     [self.client getAllActivitiesByType:type success:^(AFHTTPRequestOperation *operation, id response) {
         
+        // retrieved data, hide hud
         [statusHud hide:YES];
+        
         // put riding activities in activities array
         for (id activity in response) {
             NSString *activityType = activity[@"type"];
